@@ -1,7 +1,30 @@
 @import 'reset.scss';
-@import url('http://at.alicdn.com/t/font_569798_qcp3ipx3scgwg66r.css');
-@import 'variable.scss';
+// @import url('http://at.alicdn.com/t/font_569798_y4zi8pekpnscq5mi.css');
+@import './variable.scss';
 
-body {
-  background-color: $color-bg;
+.icon {
+  width: 1em; height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+/* 正文内容 */
+.detail-content {
+  font-size: $font-size-base;
+  padding: 30px;
+  color: $color-text-base;
+  line-height: 1.5;
+  p {
+    text-indent: $font-size-base * 2;
+  }
+}
+
+/* 顶部偏移 */
+.offset-header {
+  margin-top: 120px;
+}
+
+.red {
+  color: $color-theme;
 }

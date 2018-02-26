@@ -7,7 +7,9 @@
       <li v-for="(item, index) in data"
       @click="select(item, index)"
       class="list-item"
-      :key="index">{{option ? item[option] : item}}</li>
+      :key="index">
+        <p class="text">{{option ? item[option] : item}}</p>
+      </li>
     </ul>
     <p v-else class="list-none">暂无数据</p>
   </div>
@@ -38,11 +40,25 @@ export default {
   @import '~common/scss/mixin.scss';
   .list {
     .list-item {
-      padding: 30px;
-      color: $color-text-base;
-      border-bottom: 1px solid #ccc;
+      margin: 0 36px;
+      color: $color-text-title;
       font-size: $font-size-base;
       @include no-wrap();
+      &:after {
+        content: '';
+        display: block;
+        height: 1px;
+        width: 100%;
+        background-color: $color-line;
+      }
+      .text {
+        padding: 36px 0;
+      }
+    }
+    .list-none {
+      text-align: center;
+      color: $color-text-placeholder;
+      line-height: 5;
     }
   }
 </style>

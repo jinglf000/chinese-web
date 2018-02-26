@@ -29,3 +29,11 @@ export function getYearArts(type) {
 export function getDetail(id) {
   return $.get(`/api/detail/${id}`);
 }
+
+/**
+ * 关键字查询
+ * @param {String} key 关键字
+ */
+export function search(key) {
+  return $.get(`/api/search/${key}`);
+}
