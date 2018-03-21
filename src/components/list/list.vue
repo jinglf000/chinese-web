@@ -36,29 +36,29 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-  @import '~common/scss/variable.scss';
-  @import '~common/scss/mixin.scss';
-  .list {
-    .list-item {
-      margin: 0 36px;
-      color: $color-text-title;
-      font-size: $font-size-base;
-      @include no-wrap();
-      &:after {
-        content: '';
-        display: block;
-        height: 1px;
-        width: 100%;
-        background-color: $color-line;
-      }
-      .text {
-        padding: 36px 0;
-      }
+@import '~common/scss/variable.scss';
+@import '~common/scss/mixin.scss';
+.list {
+  .list-item {
+    margin: 0 36px;
+    color: $color-text-title;
+    font-size: $font-size-base;
+    @include no-wrap();
+    &:after {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 100%;
+      background-color: $color-line;
     }
-    .list-none {
-      text-align: center;
-      color: $color-text-placeholder;
-      line-height: 5;
+    .text {
+      padding: 42px 0;
     }
   }
+  .list-none {
+    text-align: center;
+    color: $color-text-placeholder;
+    line-height: 8;
+  }
+}
 </style>

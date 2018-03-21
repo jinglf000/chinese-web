@@ -6,6 +6,15 @@
 
 import $ from '@/common/js/axios';
 
+// 返回值全局拦截
+$.interceptors.response.use(res => {
+  const data = res.data;
+  const code = parseInt(data.code, 10);
+  if (code) {
+    return Promise.reject(res);
+  }
+  return data;
+});
 /**
  * 获取所有年度分类
  */

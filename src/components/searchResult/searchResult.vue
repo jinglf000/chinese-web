@@ -11,7 +11,7 @@
         @click="detail(item)"
         :key="index">
           <h3 class="title">{{item.title}}</h3>
-          <p class="text">{{serizeText(item.text)}}</p>
+          <p class="text">{{item.text}}</p>
         </li>
       </ul>
       <p class="no-data" v-else>无查询结果</p>
@@ -45,15 +45,12 @@ export default {
     },
     // 关键字查询
     search() {
-      search(this.key).then((res) => {
-        this.list = res.data;
-      }).catch(() => {});
-    },
-    // 对返回值进行处理
-    serizeText(str) {
-      const reg = /(<[^><]+>)|(\\n)|(\\r)/g;
-      const normalStr = str.replace(reg, '');
-      return normalStr.length > 30 ? `${normalStr.substr(0, 45)}...` : normalStr;
+      search(this.key)
+        .then(res => {
+          const list = res.data;
+          this.list = list;
+        })
+        .catch(() => {});
     },
     // 跳转到详情页
     detail(item) {
@@ -61,7 +58,6 @@ export default {
         name: 'detail',
         params: {
           id: item.id,
-          text: item.text,
           title: item.title
         }
       });
@@ -74,27 +70,28 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-  @import '~@/common/scss/variable.scss';
-  .content {
-    padding: 10px 30px;
-    .cont-item {
-      .title {
-        font-size: $font-size-large;
-        font-weight: bold;
-        color: $color-text-title;
-        padding: 20px 0;
-      }
-      .text {
-        font-size: $font-size-base;
-        color: $color-text-base;
-        border-bottom: 1px solid $color-line;
-        line-height: 2;
-        text-indent: $font-size-base;
-      }
+@import '~@/common/scss/variable.scss';
+.content {
+  padding: 10px 30px;
+  .cont-item {
+    .title {
+      font-size: $font-size-large;
+      font-weight: bold;
+      color: $color-text-title;
+      padding: 20px 0;
+    }
+    .text {
+      font-size: $font-size-base;
+      color: $color-text-base;
+      border-bottom: 1px solid $color-line;
+      line-height: 2;
+      text-indent: $font-size-base;
     }
   }
-  .no-data {
-    text-align: center;
-    color: $color-text-placeholder;
-  }
+}
+.no-data {
+  text-align: center;
+  line-height: 5;
+  color: $color-text-placeholder;
+}
 </style>

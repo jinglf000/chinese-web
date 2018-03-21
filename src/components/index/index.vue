@@ -35,9 +35,12 @@ export default {
   methods: {
     // 获取列表
     getList() {
-      getYears().then((res) => {
-        this.data = res.data;
-      }).catch(() => {});
+      getYears()
+        .then(res => {
+          const list = res.data;
+          this.data = list;
+        })
+        .catch(() => {});
     },
     // 列表选择处理
     listSelect(info) {
@@ -69,18 +72,18 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-  @import '~common/scss/variable.scss';
-  .header {
-    color: $color-theme;
-    margin-bottom: $font-size-small / 2;
-    font-size: $font-size-ultra-plus;
-    padding: 15px 0;
-    text-align: center;
-    position: relative;
-    .header-search {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-    }
+@import '~common/scss/variable.scss';
+.header {
+  color: $color-theme;
+  margin-bottom: $font-size-small / 2;
+  font-size: $font-size-ultra-plus;
+  padding: 15px 0;
+  text-align: center;
+  position: relative;
+  .header-search {
+    position: absolute;
+    top: 20px;
+    right: 30px;
   }
+}
 </style>

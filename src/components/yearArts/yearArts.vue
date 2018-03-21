@@ -26,9 +26,12 @@ export default {
   methods: {
     // 获取此类别下的文章列表
     getArts() {
-      getYearArts(this.$route.params.type).then((res) => {
-        this.artList = res.data;
-      }).catch(() => {});
+      getYearArts(this.$route.params.type)
+        .then(res => {
+          const list = res.data;
+          this.artList = list;
+        })
+        .catch(() => {});
     },
     // 路由跳转
     listSelect(info) {
@@ -50,5 +53,5 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-  @import '~@/common/scss/variable.scss';
+@import '~@/common/scss/variable.scss';
 </style>

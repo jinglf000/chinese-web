@@ -24,16 +24,18 @@ export default {
   methods: {
     // 获取文章详细内容
     getDetail() {
-      getDetail(this.$route.params.id).then((res) => {
-        if (res.data && res.data.length > 0) {
-          const current = res.data[0];
-          this.text = current.text;
-          this.title = current.title;
-        } else {
-          this.title = '暂无内容';
-          this.text = '似乎没有这篇文章，请重新选择~';
-        }
-      }).catch(() => {});
+      getDetail(this.$route.params.id)
+        .then(res => {
+          if (res.data && res.data.length > 0) {
+            const current = res.data[0];
+            this.text = current.text;
+            this.title = current.title;
+          } else {
+            this.title = '暂无内容';
+            this.text = '似乎没有这篇文章，请重新选择~';
+          }
+        })
+        .catch(() => {});
     }
   },
   created() {
@@ -48,5 +50,5 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-  @import '~@/common/scss/variable.scss';
+@import '~@/common/scss/variable.scss';
 </style>
