@@ -3,7 +3,8 @@
 @import './variable.scss';
 
 .icon {
-  width: 1em; height: 1em;
+  width: 1em;
+  height: 1em;
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
@@ -14,7 +15,7 @@
   font-size: $font-size-base;
   padding: 30px;
   color: $color-text-base;
-  line-height: 1.5;
+  line-height: 1.8;
   p {
     text-indent: $font-size-base * 2;
   }

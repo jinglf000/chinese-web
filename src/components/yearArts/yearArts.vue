@@ -13,6 +13,7 @@
 import { getYearArts } from '@/api/article';
 import List from '@/components/list/list';
 import SubHeader from '@/components/subHeader/subHeader';
+import { serizeBookTitle } from '@/common/js/utils';
 
 export default {
   name: 'yearArts',
@@ -29,6 +30,10 @@ export default {
       getYearArts(this.$route.params.type)
         .then(res => {
           const list = res.data;
+          list.forEach(item => {
+            /* eslint-disable no-param-reassign */
+            item.title = serizeBookTitle(item.title);
+          });
           this.artList = list;
         })
         .catch(() => {});

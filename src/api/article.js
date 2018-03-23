@@ -41,8 +41,14 @@ export function getDetail(id) {
 
 /**
  * 关键字查询
- * @param {String} key 关键字
+ * @param {Object} obj.key 关键字
+ * @param {Object} obj.page 页数
  */
-export function search(key) {
-  return $.get(`/api/search/${key}`);
+export function search(obj) {
+  return $.get('/api/search', {
+    params: {
+      key: obj.key,
+      page: obj.page
+    }
+  });
 }

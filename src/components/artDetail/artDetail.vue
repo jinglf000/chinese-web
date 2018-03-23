@@ -11,6 +11,7 @@
 <script>
 import { getDetail } from '@/api/article';
 import SubHeader from '@/components/subHeader/subHeader';
+import { serizeBookTitle } from '@/common/js/utils';
 
 export default {
   name: 'artDetail',
@@ -29,7 +30,7 @@ export default {
           if (res.data && res.data.length > 0) {
             const current = res.data[0];
             this.text = current.text;
-            this.title = current.title;
+            this.title = serizeBookTitle(current.title);
           } else {
             this.title = '暂无内容';
             this.text = '似乎没有这篇文章，请重新选择~';

@@ -14,7 +14,7 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      component: Index,
+      component: Index
     },
     {
       path: '/list',
@@ -32,7 +32,7 @@ export default new Router({
       component: ArtDetail
     },
     {
-      path: '/seach/:key',
+      path: '/search',
       name: 'search',
       component: SearchResult
     }

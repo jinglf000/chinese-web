@@ -60,9 +60,7 @@ export default {
     searchResult(val) {
       this.$router.push({
         name: 'search',
-        params: {
-          key: val
-        }
+        query: { key: val }
       });
     }
   },

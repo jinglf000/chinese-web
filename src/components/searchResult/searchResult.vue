@@ -2,7 +2,7 @@
   ## 查询结果
 </docs>
 <template>
-  <div class="reuslt">
+  <div class="result" ref="result">
     <search :default-val="key" @close="inputClose"
     @search="inputSearch"></search>
     <div class="content">
@@ -14,20 +14,27 @@
           <p class="text">{{item.text}}</p>
         </li>
       </ul>
-      <p class="no-data" v-else>无查询结果</p>
+      <loading :visible="featching"></loading>
+      <!-- <p class="no-data" >无查询结果</p> -->
     </div>
   </div>
 </template>
 <script>
 import { search } from '@/api/article';
 import Search from '@/components/searchBar/search';
+import { serizeBookTitle } from '@/common/js/utils';
+import Loading from '@/base/loading/loading';
+
+let ajaxLoading = true;
 
 export default {
   name: 'searchResult',
-  components: { Search },
+  components: { Search, Loading },
   data() {
     return {
       key: '',
+      page: 1,
+      featching: true,
       list: []
     };
   },
@@ -36,6 +43,12 @@ export default {
     inputSearch(val) {
       this.key = val;
       this.search();
+      this.$router.replace({
+        name: 'search',
+        query: {
+          key: val
+        }
+      });
     },
     // 输入框关闭 ---> 返回首页
     inputClose() {
@@ -45,12 +58,32 @@ export default {
     },
     // 关键字查询
     search() {
-      search(this.key)
+      if (!ajaxLoading) return;
+      ajaxLoading = false;
+      search({
+        key: this.key,
+        page: this.page
+      })
         .then(res => {
-          const list = res.data;
-          this.list = list;
+          if (res.data) {
+            const list = res.data.list;
+            list.forEach(item => {
+              /* eslint-disable no-param-reassign */
+              item.title = serizeBookTitle(item.title);
+            });
+            if (this.list.length === 0) {
+              this.list = list;
+            } else {
+              this.list = this.list.concat(list);
+            }
+            this.featching = false;
+          }
+          ajaxLoading = true;
         })
-        .catch(() => {});
+        .catch(() => {
+          ajaxLoading = true;
+          this.featching = false;
+        });
     },
     // 跳转到详情页
     detail(item) {
@@ -61,11 +94,39 @@ export default {
           title: item.title
         }
       });
+    },
+    // touch Event Handle
+    touchStart(e) {
+      const html = document.documentElement;
+      this.touchX = e.touches[0].clientY;
+      this.docHeight = html.scrollHeight;
+      this.winHeight = window.innerHeight;
+    },
+    touchMove(e) {
+      const html = document.documentElement;
+      const move = e.touches[0].clientY - this.touchX;
+      const docTop = html.scrollTop;
+      // console.log(docTop, this.docHeight, this.winHeight);
+      if (move < 0 && docTop > this.docHeight - this.winHeight - 20) {
+        this.featching = true;
+      }
+    },
+    touchEnd() {
+      if (this.featching) {
+        this.page += 1;
+        this.search();
+      }
     }
   },
   created() {
-    this.key = this.$route.params.key;
+    this.key = this.$route.query.key;
+    this.page = this.$route.query.page || 1;
     this.search();
+  },
+  mounted() {
+    window.addEventListener('touchstart', this.touchStart);
+    window.addEventListener('touchmove', this.touchMove);
+    window.addEventListener('touchend', this.touchEnd);
   }
 };
 </script>
@@ -78,7 +139,7 @@ export default {
       font-size: $font-size-large;
       font-weight: bold;
       color: $color-text-title;
-      padding: 20px 0;
+      padding: 25px 0;
     }
     .text {
       font-size: $font-size-base;

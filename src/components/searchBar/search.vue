@@ -63,9 +63,10 @@ export default {
   display: flex;
   background-color: $color-input-bg;
   font-size: $font-size-base;
+  background: linear-gradient(right, #40e0d0, #fff);
   .input {
     flex: 1 1 80%;
-    background-color: $color-input-bg;
+    background-color: transparent;
     padding: 30px;
     color: $color-text-title;
     border: none;
@@ -73,7 +74,7 @@ export default {
   .icon {
     flex: 1 1 10%;
     margin-top: 30px;
-    color: $color-text-title;
+    color: #fff;
   }
   .s-search {
     font-size: $font-size-base * 1.2;
