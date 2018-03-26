@@ -14,8 +14,8 @@
           <p class="text">{{item.text}}</p>
         </li>
       </ul>
-      <loading :visible="featching"></loading>
-      <!-- <p class="no-data" >无查询结果</p> -->
+      <loading :visible="canFeatch && page <= maxPage"></loading>
+      <p class="no-data" v-show="page > maxPage">--无更多内容--</p>
     </div>
   </div>
 </template>
@@ -25,7 +25,7 @@ import Search from '@/components/searchBar/search';
 import { serizeBookTitle } from '@/common/js/utils';
 import Loading from '@/base/loading/loading';
 
-let ajaxLoading = true;
+let ajaxLoading = false;
 
 export default {
   name: 'searchResult',
@@ -34,15 +34,17 @@ export default {
     return {
       key: '',
       page: 1,
-      featching: true,
-      list: []
+      canFeatch: false,
+      list: [],
+      maxPage: 1
     };
   },
   methods: {
     // 输入框直接查询
     inputSearch(val) {
       this.key = val;
-      this.search();
+      this.page = 1;
+      this.search(true);
       this.$router.replace({
         name: 'search',
         query: {
@@ -57,9 +59,10 @@ export default {
       });
     },
     // 关键字查询
-    search() {
-      if (!ajaxLoading) return;
-      ajaxLoading = false;
+    search(flag) {
+      if (ajaxLoading) return;
+      if (this.page > this.maxPage) return;
+      ajaxLoading = true;
       search({
         key: this.key,
         page: this.page
@@ -71,18 +74,18 @@ export default {
               /* eslint-disable no-param-reassign */
               item.title = serizeBookTitle(item.title);
             });
-            if (this.list.length === 0) {
+            // 初次查询
+            if (flag) {
               this.list = list;
             } else {
               this.list = this.list.concat(list);
             }
-            this.featching = false;
+            this.maxPage = res.data.total;
           }
-          ajaxLoading = true;
+          ajaxLoading = false;
         })
         .catch(() => {
-          ajaxLoading = true;
-          this.featching = false;
+          ajaxLoading = false;
         });
     },
     // 跳转到详情页
@@ -108,20 +111,23 @@ export default {
       const docTop = html.scrollTop;
       // console.log(docTop, this.docHeight, this.winHeight);
       if (move < 0 && docTop > this.docHeight - this.winHeight - 20) {
-        this.featching = true;
+        this.canFeatch = true;
       }
     },
     touchEnd() {
-      if (this.featching) {
+      if (this.canFeatch && !ajaxLoading) {
         this.page += 1;
         this.search();
+        this.$nextTick(() => {
+          this.canFeatch = false;
+        });
       }
     }
   },
   created() {
     this.key = this.$route.query.key;
     this.page = this.$route.query.page || 1;
-    this.search();
+    this.search(true);
   },
   mounted() {
     window.addEventListener('touchstart', this.touchStart);
