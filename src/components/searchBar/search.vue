@@ -63,14 +63,7 @@ export default {
   display: flex;
   background-color: $color-input-bg;
   font-size: $font-size-base;
-  background: -webkit-gradient(
-    linear,
-    right top,
-    left top,
-    from(#40e0d0),
-    to(#fff)
-  );
-  background: linear-gradient(right, #40e0d0, #fff);
+  background: linear-gradient(-90deg, #40e0d0, #fff);
   .input {
     flex: 1 1 80%;
     background-color: transparent;
